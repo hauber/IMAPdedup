@@ -306,9 +306,33 @@ def process(options, mboxes):
         server.logout()
 
 def main(args):
-    options, mboxes = get_arguments(args)
+    print "ignoring command line arguments"
+    # options, mboxes = get_arguments(args)
+
+    class options:
+        server = 'imap.server.com'
+        port = None
+        ssl = True
+        user = 'user'
+        password = 'password'
+        verbose = False
+        dry_run = False
+        use_checksum = True
+        use_id_in_checksum = True
+        just_list = False
+        no_close = False
+        process = False
+
+    mboxes = [
+        'INBOX'
+    ]
+
+    print dir(options)
+    print mboxes
+
     process(options, mboxes)
 
 if __name__ == '__main__':
     main(sys.argv[1:])
 
+#TODO: iterate over mailboxes (maybe use the output of option: just_list)
