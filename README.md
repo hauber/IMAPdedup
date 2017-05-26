@@ -44,7 +44,9 @@ Once you know your folder names, you can run something like
 
     ./imapdedup.py -s imap.myisp.com -u myuserid -x -n INBOX.Test
 
-and the script will tell you what it would do to your *INBOX/Test* folder. 
+and the script will tell you what it would do to your *INBOX/Test* folder.  If your folder name contains spaces, you'll need to put it in quotes:
+
+    ./imapdedup.py -s imap.myisp.com -u myuserid -x -n "INBOX.My Important Messages"
 
 The `-n` option tells IMAPdedup that this is a 'dry run': it stops it from *actually making* any changes; it's a good idea to run with this first unless you like living dangerously.  When you're ready, leave that out, and it will go ahead and mark your duplicate messages as deleted.  
 
@@ -52,7 +54,14 @@ The process can take some time on large folders or slow connections, so you may 
 
 You can specify multiple folders to work on, and it work through them in order and will delete, in the later folders, duplicates of messages that it has found either in those folders or in earlier ones.
 
-# Use with a config file
+# Specifying the password
+
+If you don't wish to specify a password via a command-line argument, where it could be seen by other users of the system, and you don't want to type it in each time, you have two options:
+
+* You can put it in an environment variable called IMAPDEDUP_PASSWORD, or
+* You can specify it in a wrapper script as described below.
+
+# Use with a config file (a wrapper script)
 
 Michael Haggerty made some small changes to facilitate calling imapdedup from a script (e.g., from a cron job).  Instead of running it directly, create a wrapper script that can be as simple as:
 
@@ -81,8 +90,9 @@ Michael Haggerty made some small changes to facilitate calling imapdedup from a 
 
     imapdedup.process(options, mboxes)
 
-This is nice because it doesn't require a password to be passed to the program via a command-line argument, where it could be seen by other users of the system. (This short startup file could be made read-only.)  Note that you will normally need to include in your options class ALL of the options that you might specify on the command line.
+Note that you will normally need to include in your options class ALL of the options that you might specify on the command line.  
 
+If you on a shared machine or filesystem and you are including sensitive information such as the password in this file, you may wish to set its permissions appropriately.
 
 ## Accessing the IMAP mailboxes via a local server
 
@@ -102,7 +112,7 @@ This software is released under the terms of the GPL v2.  See the included LICEN
 
 It comes with no warranties, express or implied; use at your own risk!
 
-Many thanks to Liyu (Luke) Liu, Adam Horner, Michael Haggerty, 'GargaBou', Stefan Agner, Vincent Bernat and others for their contributions!
+Many thanks to Liyu (Luke) Liu, Adam Horner, Michael Haggerty, 'GargaBou', Stefan Agner, Vincent Bernat, Jonathan Vanasco and others for their contributions!
 
 [Quentin Stafford-Fraser][1]
 
