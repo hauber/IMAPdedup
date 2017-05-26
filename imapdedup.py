@@ -315,11 +315,11 @@ def main(args):
         ssl = True
         user = 'user'
         password = 'password'
-        verbose = False
-        dry_run = False
+        verbose = True
+        dry_run = True
         use_checksum = True
         use_id_in_checksum = True
-        just_list = False
+        just_list = True
         no_close = False
         process = False
 
